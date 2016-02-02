@@ -13,7 +13,12 @@ var CloudWatch = winston.transports.CloudWatch = function(options) {
 util.inherits(CloudWatch, winston.Transport);
 
 CloudWatch.prototype.log = function(level, msg, meta, callback) {
-  var log = { level: level, msg: msg, meta: meta };
+  var log = { level: level, msg: msg };
+
+  if (meta && meta.length > 0) {
+    log.meta = meta;
+  }
+
   cloudwatchIntegration.add(log);
 
   // do not wait, just return right away
